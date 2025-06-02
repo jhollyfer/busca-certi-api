@@ -1,0 +1,14 @@
+export enum CertificadoStatusEntrega {
+  ENTREGUE = 'ENTREGUE',
+  DISPONIVEL_PARA_ENTREGA = 'DISPONIVEL_PARA_ENTREGA',
+}
+
+export enum CertificadoStatusCorrecao {
+  NECESSITA_CORRECAO = 'NECESSITA_CORRECAO',
+  NAO_NECESSITA_CORRECAO = 'NAO_NECESSITA_CORRECAO',
+}
+
+export enum UsuarioTipo {
+  ALUNO = 'ALUNO',
+  ADMINISTRADOR = 'ADMINISTRADOR',
+}
