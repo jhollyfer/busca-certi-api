@@ -8,8 +8,8 @@ export default class BuscarPorNomeCertificadosController {
   constructor(private readonly useCase: BuscarPorNomeCertificadosUseCase) {}
 
   async handle({ request, response }: HttpContext) {
-    const { nomeCompleto } = request.only(['nomeCompleto'])
-    const resultado = await this.useCase.execute({ nomeCompleto })
+    const { name } = request.only(['name'])
+    const resultado = await this.useCase.execute({ nomeCompleto: name })
     return response.ok(resultado)
   }
 }

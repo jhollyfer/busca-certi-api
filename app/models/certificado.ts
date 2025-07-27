@@ -5,32 +5,43 @@ import { belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class Certificado extends BaseUUID {
-  @column()
+  @column({
+    serializeAs: 'course',
+  })
   declare curso: string
 
-  @column()
+  @column({
+    serializeAs: 'year',
+  })
   declare ano: number
 
-  @column()
+  @column({
+    serializeAs: 'statusDelivery',
+  })
   declare statusEntrega: CertificadoStatusEntrega
 
-  @column()
+  @column({
+    serializeAs: 'statusCorrection',
+  })
   declare statusCorrecao: CertificadoStatusCorrecao
 
-  @column()
+  @column({
+    serializeAs: 'studentId',
+  })
   declare alunoId: string
 
   @belongsTo(() => Usuario, {
     foreignKey: 'alunoId',
+    serializeAs: 'student',
   })
   declare aluno: BelongsTo<typeof Usuario>
 
   serializeExtras() {
     return {
       total: Number(this.$extras.total ?? 0),
-      disponiveis: Number(this.$extras.disponiveis ?? 0),
-      entregues: Number(this.$extras.entregues ?? 0),
-      corrigir: Number(this.$extras.corrigir ?? 0),
+      available: Number(this.$extras.disponiveis ?? 0),
+      delivered: Number(this.$extras.entregues ?? 0),
+      needsCorrection: Number(this.$extras.corrigir ?? 0),
     }
   }
 }

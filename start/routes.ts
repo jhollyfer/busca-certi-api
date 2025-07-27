@@ -22,7 +22,7 @@ router.get('/', async () => {
     mensagem: 'Bem vindo ao sistema de busca de certificados',
   }
 })
-router.post('/buscar-por-nome', [BuscarPorNomeCertificadosController]).as('buscar-por-nome')
+router.get('/certificates/:name', [BuscarPorNomeCertificadosController]).as('buscar-por-nome')
 
 router
   .group(() => {
