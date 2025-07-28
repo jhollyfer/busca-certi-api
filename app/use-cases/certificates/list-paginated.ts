@@ -4,13 +4,21 @@ import { inject } from '@adonisjs/core'
 
 @inject()
 export default class CertificateListPaginatedUseCase {
-  public async execute({ search }: { search?: string }) {
+  public async execute({
+    search,
+    page = 1,
+    perPage = 10,
+  }: {
+    search?: string
+    perPage?: number
+    page?: number
+  }) {
     const students = await Usuario.query()
       .if(search, (query) => {
         query.whereILike('name', `%${search}%`)
       })
       .preload('certificates')
-      .paginate(1, 10)
+      .paginate(page, perPage)
 
     return students
   }
