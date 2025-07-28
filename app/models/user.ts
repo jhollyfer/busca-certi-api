@@ -1,6 +1,6 @@
-import { UsuarioTipo } from '#constants/enums'
+import { UserRoleEnum } from '#constants/enums'
 import BaseUUID from '#models/base-uuid'
-import Certificado from '#models/certificado'
+import Certificate from '#models/certificate'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { compose } from '@adonisjs/core/helpers'
@@ -13,31 +13,31 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   passwordColumnName: 'senha',
 })
 
-export default class Usuario extends compose(BaseUUID, AuthFinder) {
-  static table = 'usuarios'
+export default class User extends compose(BaseUUID, AuthFinder) {
+  static table = 'users'
 
   @column()
-  declare nome: string
+  declare name: string
 
   @column()
   declare email: string | null
 
   @column({ serializeAs: null })
-  declare senha: string | null
+  declare password: string | null
 
   @column()
-  declare tipo: UsuarioTipo
+  declare role: UserRoleEnum
 
-  static tokens = DbAccessTokensProvider.forModel(Usuario)
+  static tokens = DbAccessTokensProvider.forModel(User)
 
-  @hasMany(() => Certificado, {
-    foreignKey: 'alunoId',
+  @hasMany(() => Certificate, {
+    foreignKey: 'studentId',
   })
-  declare certificados: HasMany<typeof Certificado>
+  declare certificates: HasMany<typeof Certificate>
 
   serializeExtras() {
     return {
-      alunos: Number(this.$extras.alunos ?? 0),
+      students: Number(this.$extras.students ?? 0),
     }
   }
 }

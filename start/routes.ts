@@ -7,14 +7,12 @@
 |
 */
 
-const ImportarCertificadosController = () =>
-  import('#controllers/administrador/importar.controller')
-const ListaPaginadaCertificadosController = () =>
-  import('#controllers/administrador/lista-paginada.controller')
-const BuscarPorNomeCertificadosController = () =>
-  import('#controllers/certificados/buscar-por-nome.controller')
-const DashboardEstatisticasCertificadosUseCaseCertificadosController = () =>
-  import('#controllers/administrador/dashboard-estatisticas.controller')
+const CertificateListPaginatedController = () =>
+  import('#controllers/administrador/certificate-list-paginated.controller')
+const HomeCertificateListPaginatedController = () =>
+  import('#controllers/certificates/list-paginated.controller')
+const AdministratorDashboardStatusController = () =>
+  import('#controllers/administrador/certificate-dashboard-stats')
 import router from '@adonisjs/core/services/router'
 
 router.get('/', async () => {
@@ -22,20 +20,24 @@ router.get('/', async () => {
     mensagem: 'Bem vindo ao sistema de busca de certificados',
   }
 })
-router.get('/certificates/:name', [BuscarPorNomeCertificadosController]).as('buscar-por-nome')
+
+router
+  .get('/certificates', [HomeCertificateListPaginatedController])
+  .as('certificate-list-paginated')
 
 router
   .group(() => {
     router
-      .get('/dashboard', [DashboardEstatisticasCertificadosUseCaseCertificadosController])
-      .as('dashboard')
+      .get('/dashboard', [AdministratorDashboardStatusController])
+      .as('administrator-dashboard-stats')
   })
   .prefix('/administrador')
 
 router
   .group(() => {
-    router.post('/importar', [ImportarCertificadosController]).as('importar')
-    router.get('/lista-paginada', [ListaPaginadaCertificadosController]).as('lista-paginada')
+    router
+      .get('/paginated', [CertificateListPaginatedController])
+      .as('administrator-certificate-list-paginated')
   })
   .prefix('/certificados')
   .prefix('/administrador')
